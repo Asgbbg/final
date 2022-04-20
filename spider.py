@@ -5,25 +5,45 @@ from selenium import webdriver
 browser = webdriver.Chrome()
 from selenium.webdriver.common.by import By
 
-url = 'https://www.taptap.com/user/4393096/reviews'
-# url='https://www.baidu.com'
-# header={'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36'}
-# html=requests.get(url,headers=header).text
-# sleep(10.0)
-# etree_html=etree.HTML(html)
-# content=etree_html.xpath('//*[@id="tap"]/div/main/div[2]/div/div/div[3]/div[7]/div/div[9]/div/div/div[1]/div/div[2]/div[3]/a/div/div/div/p')
+url = 'https://www.taptap.com/app/232118/review'
 browser.get(url)
-# text=browser.page_source
 sleep(10.0)
-title = browser.find_element(by=By.XPATH,
-                             value='//*[@id="tap"]/div/main/div[2]/div/div/div[3]/div[3]/div/div[3]/div/div/div[1]/div/div[2]/div[1]/div[2]/div[2]/a/div/p/span').text
-text = browser.find_element(by=By.XPATH,
-                            value='//*[@id="tap"]/div/main/div[2]/div/div/div[3]/div[3]/div/div[3]/div/div/div[1]/div/div[2]/div[3]/a/div/div/div/p').text
-tags = browser.find_elements(by=By.XPATH,
-                             value='//*[@id="tap"]/div/main/div[2]/div/div/div[3]/div[3]/div/div[3]/div/div/div[1]/div/div[2]/div[1]/div[2]/div[2]/div/div[2]')[
-    0].text
-texts = browser.find_elements(by=By.CLASS_NAME, value='text-box__content')[1].text
-# tag2=browser.find_element(by=By.XPATH,value='//*[@id="tap"]/div/main/div[2]/div/div/div[3]/div[3]/div/div[3]/div/div/div[1]/div/div[2]/div[1]/div[2]/div[2]/div/div[2]/a[2]/div').text
+# titles=[]
+# tags=[]
+# texts=[]
+items = []
+select_cl = []
+# user_name=browser.find_element(by=By.CLASS_NAME,value='user-detail__name-gender').text
+# user_id=browser.find_element(by=By.CLASS_NAME,value='user-detail__id-copy').text
+# titles = browser.find_elements(by=By.CLASS_NAME,
+#                              value='tap-long-text')
+# tags= browser.find_elements(by=By.CLASS_NAME,
+#                              value='label-tag-group-wrapper')
+# texts= browser.find_elements(by=By.CLASS_NAME, value='text-box__content')
 
-print(title, text, tags, texts)
-# print(content)
+text_total = int(browser.find_element(by=By.CLASS_NAME, value='tab-item__text').text)
+print(text_total)
+sleep(3.0)
+while len(items) != text_total:
+    print("获取到的items与总数不符")
+    print("目前items为" + str(len(items)))
+    print("目前text_total为" + str(text_total))
+    browser.execute_script("window.scrollBy(0,3500)")
+    print("向下滑动3500pix")
+    sleep(3.0)
+    print("睡觉3s")
+    items = browser.find_elements(by=By.CLASS_NAME, value='review-item')
+    if len(items) == 20:
+        break
+for i in range(text_total):
+    try:
+        text = items[i].find_element(by=By.CLASS_NAME, value='text-box__content').text
+        support = int(items[i].find_element(by=By.CLASS_NAME, value='vote-button--up').text)
+        print(text)
+        print('\n')
+    except Exception as e:
+        print("捕捉到异常")
+        text = 'null'
+        print(text)
+    else:
+        print("正常加载")
