@@ -1,6 +1,6 @@
 import joblib
 
-flag = '2022-04-26-11-37-09'
+flag = '2022-04-26-13-45-21'
 lda = joblib.load('models/' + flag + '/lda_profile.pkl')
 tf = joblib.load('models/' + flag + '/tf.pkl')
 cv = joblib.load('models/' + flag + '/cv_profile.pkl')

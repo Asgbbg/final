@@ -96,11 +96,11 @@ if __name__ == '__main__':
 
     # 模型初始化
     print("开始LDA模型构造")
-    k = 30  # 人为指定划分的主题数k
+    k = 150  # 人为指定划分的主题数k
     lda = LatentDirichletAllocation(n_components=k,
                                     max_iter=50,
                                     learning_method='online',
-                                    learning_offset=50.,
+                                    learning_offset=50,
                                     random_state=0)
     time_start = time.time()
     ldamodel = lda.fit_transform(tf)
